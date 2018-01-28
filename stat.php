@@ -41,8 +41,8 @@
     $trans_sum[$tr['date']] = array_sum($trans_value[$tr['date']]);
     $trans_am[$tr['date']] = count($trans_value[$tr['date']]);
   }
-  $trans_max_sum = !count($trans_sum) ? max($trans_sum) : 1;
-  $trans_max_am = !empty($trans_am) ? max($trans_am) : 1;
+  $trans_max_sum = max($trans_sum);
+  $trans_max_am = max($trans_am);
   //echo "<pre>"; print_r($trans_price); echo "</pre>";
   //echo "<pre>"; print_r($trans_per_price); echo "</pre>";
 
@@ -98,64 +98,34 @@
   <div class='stat_table'>
     <div class='stat_column'>
       <h2>Пользователи</h2>
-      <div class='stat_param_act'>
-        <p>Зарегистрировано за выбранный период</p>
-        <div class='act_value'>$users_per</div>
-      </div>
-      <div class='stat_param_all'>
-        <p>Зарегистрировано за весь период</p>
-        <div class='value'>$users</div>
-      </div>
-      <div class='stat_param_act'>
-        <p>Покупателей за выбранный период</p>
-        <div class='act_value'>$users_cust</div>
-      </div>
-      <div class='stat_param_all'>
-        <p>Покупателей за весь период</p>
-        <div class='value'>$users_per</div>
-      </div>
+      <p>Зарегистрировано</p>
+      <div class='act_value'>$users_per</div>
+      <div class='value'>/ $users</div>
+      <br />
+      <p>Совершило покупку</p>
+      <div class='act_value'>$users_cust</div>
+      <div class='value'>/ $users_per</div>
     </div>
     <div class='stat_column'>
-      <h2>Заказы</h2>
-      <div class='stat_param_act'>
-        <p>Оформлено за выбранный период</p>
-        <div class='act_value'>$docs_per</div>
-      </div>
-      <div class='stat_param_all'>
-        <p>Оформлено за весь период</p>
-        <div class='value'>$docs</div>
-      </div>
-      <div class='stat_param_act'>
-        <p>Оплачено за выбранный период</p>
-        <div class='act_value'>$docs_done</div>
-      </div>
-      <div class='stat_param_all'>
-        <p>Оплачено за весь период</p>
-        <div class='value'>$docs_per</div>
-      </div>
+      <h2>Документы</h2>
+      <p>Оформлено заказов</p>
+      <div class='act_value'>$docs_per</div>
+      <div class='value'>/ $docs</div>
+      <br />
+      <p>Оплачено и готово</p>
+      <div class='act_value'>$docs_done</div>
+      <div class='value'>/ $docs_per</div>
     </div>
     <div class='stat_column'>
       <h2>Оплата</h2>
-      <div class='stat_param_act'>
-        <p>Получено за выбранный период</p>
-        <div class='act_value'>$payment_per</div>
-        <p>руб.</p>
-      </div>
-      <div class='stat_param_all'>
-        <p>Получено за весь период</p>
-        <div class='value'>$payment</div>
-        <p>руб.</p>
-      </div>
-      <div class='stat_param_act'>
-        <p>Средний чек за выбранный период</p>
-        <div class='act_value'>".round($payment_per/count($trans_per_price))."</div>
-        <p>руб.</p>
-      </div>
-      <div class='stat_param_all'>
-        <p>Средний чек за весь период</p>
-        <div class='value'>".round($payment/count($trans_price))."</div>
-        <p>руб.</p>
-      </div>
+      <p>Получено денег</p>
+      <div class='act_value'>$payment_per</div>
+      <div class='value'>/ $payment</div>
+      <p>руб.</p><br />
+      <p>Средний чек</p>
+      <div class='act_value'>".round($payment_per/count($trans_per_price))."</div>
+      <div class='value'>/ ".round($payment/count($trans_price))."</div>
+      <p>руб.</p>
     </div>
   </div>
   <div class='stat_graph'>

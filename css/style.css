@@ -520,17 +520,11 @@ main > div {
 .stat_table p {
 	line-height:30px;	
 }
-.stat_param_act {
-	color:#000;
-}
-.stat_param_all {
-	color:#9a9a9a;
-}
 .stat_table .value {
-	font-size:24px;
+	font-size:17px;
 }
 .stat_table .act_value {
-	font-size:24px;
+	font-size:30px;
 }
 .stat_graph > div {
 	display:table;

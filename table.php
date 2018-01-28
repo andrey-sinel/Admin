@@ -142,11 +142,7 @@
       }
       echo "
       </td><td>";
-      // Еслит название поле совпаает с названием таблицы БД
-      // выводим записи из этой	таблицы
       if (is_array($inc = $DB->getData("select title, url from ".$column['Field']." where sh='1'&&url!=''&&level='0'"))){
-        // Если поле предполагает несколько вариантов
-        // выводим список checkbox
         if ($fields_many[$column['Field']]){
           echo "
           <input type='hidden' value='".$data[$column['Field']]."' name='".$column['Field']."' id='".$column['Field']."'>";
@@ -169,7 +165,6 @@
             }
           </script>";
         }
-        // иначе выводим список select
         else{
           $content_val = $data[$column['Field']];
           echo "
@@ -180,8 +175,7 @@
           </select>";
         }
       }
-      // Если поле предполагает список таблиц БД
-      else if ($column['Field']=='inc_table'){
+      else if ($column['Field']=='tables'){
         $tables = mysqli_query($db, "show tables");
         echo "
         <select name='tables'>
@@ -195,7 +189,7 @@
         </select>";
       }
       
-      /* Пользовательские поля */
+      /* Modifications */
       else if ($column['Field']=='status' &&  $page=='transactions'){
         echo 
         $transaction_statuses[$data['status']];     
@@ -219,14 +213,13 @@
           <a href='table.php?page=documents&id=".$doc['id']."'>".$doc['id']." - ".$doc['code']."</a>&nbsp;&nbsp; - &nbsp;&nbsp;".$documents_statuses[$doc['status']]."<br>";     
         }
       }
-      /* Пользовательские поля */  
+      /* Modifications */  
       
       else if ($column['Field']=='user_id'){
         $user_data = mysqli_fetch_array(mysqli_query($db, "select * from users where id='".$data['user_id']."'"));
         echo "
         <a href='table.php?page=users&id=".$data['user_id']."'>".$user_data['title']." (".$data['user_id'].")</a>";
       }
-      // Выбор прав доступа
       else if ($column['Field']=='access'){
         $inc = $DB->getData("select title, url from users_access where sh='1'&&level='0'");
         echo "
@@ -239,7 +232,19 @@
         echo "
         </select>";
       }
-      // Переключатель Да/нет
+      else if ($column['Field']=='inc_table'){
+        echo "
+        <select name='".$column['Field']."'>
+          <option value=''>---</option>";
+        $tables = mysqli_query($db, "show tables");
+        while ($t = mysqli_fetch_array($tables)){
+          if ($t[0]==$page) continue;
+          echo "
+          <option value='".$t[0]."'"; if ($data[$column['Field']]==$t[0]){ echo " selected";} echo ">",$t[0]."</option>";
+        }
+        echo "
+        </select>";
+      }
       else if (strstr($column['Field'],'sh')){
         echo "
         <input type='hidden' name='".$column['Field']."' value='0'>
@@ -255,7 +260,6 @@
         echo "
         <input type='text' name='title' id='title' style='width:500px' value='".stripslashes($data['title'])."' onBlur=\"transtlit_url()\">";
       }
-      // Уровень вложенности
       else if ($column['Field']=='level'){
         $id = $data['id'];
         $level = $data['level'];
@@ -334,7 +338,6 @@
           });
         </script>";
       }
-      // Полный пусть к записи
       else if (strstr($column['Field'],'path')){
         $path = "/$page";
         $url_arr = array();
